@@ -1,7 +1,6 @@
 package edu.gcccd.csis;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.util.Iterator;
 
 //reverse a nodeList
@@ -19,12 +18,14 @@ public class MyProject2 implements Project2 {
     //add 2 nodeList
     @Override
     public NodeList<Integer> addition(NodeList<Integer> nodeList1, NodeList<Integer> nodeList2) {
-       if (nodeList1.getLength()==0 && nodeList2.getLength()==0){
+
+        if (nodeList1.getLength()==0 && nodeList2.getLength()==0){
            throw new IllegalArgumentException("node 1 and 2 can not be empty");
        }
         NodeList<Integer> nodeListTotal = new NodeList<>();
         reverse(nodeList1.iterator(), nodeList1);
         reverse(nodeList2.iterator(), nodeList2);
+
         int c = 0;
         for (int a : nodeList1) {
             nodeList1.remove(a);
@@ -36,6 +37,7 @@ public class MyProject2 implements Project2 {
                     c = 1;
                 }
                 nodeListTotal.append(nodeTotal);
+
                 if (nodeList1.getLength() == 0 && nodeList2.getLength() > 0) {
                     for (int B : nodeList2) {
                         nodeList2.remove(B);
@@ -59,6 +61,11 @@ public class MyProject2 implements Project2 {
                 break;
             } }
         reverse(nodeListTotal.iterator(), nodeListTotal);
+        for(int node: nodeListTotal){
+            if(node==0){
+                nodeListTotal.remove(0);
+            }
+        }
         return nodeListTotal;
     }
 
@@ -68,11 +75,7 @@ public class MyProject2 implements Project2 {
         nodeListTotal.append(0);
         while (iterator.hasNext()) {
             nodeListTotal = addition(iterator.next(), nodeListTotal);
-            System.out.print("NT=: ");
-            Project2.print(nodeListTotal);
         }
-        System.out.print("nodeListTotal: ");
-        Project2.print(nodeListTotal);
         return nodeListTotal;
     }
 
@@ -106,12 +109,19 @@ public class MyProject2 implements Project2 {
     return nodeList;
     }
 
-
+    public static String nodeString(NodeList<Integer> nodeList){
+        String s="";
+        for(int node: nodeList){
+            s = s+String.valueOf(node);
+        }
+        return s;
+    }
     public static void main(final String[] args) {
-        final int L = 30;
+        final int L = 3;
 
         final NodeList<Integer> n1 = Project2.generateNumber(L); // (head 1st) e.g. 3457
         final NodeList<Integer> n2 = Project2.generateNumber(L); // (head 1st) e.g. 682
+
         final Project2 p = new MyProject2();
 
         Project2.print(p.addition(n1, n2)); //  n1+n2, e.g. 4139
@@ -120,8 +130,8 @@ public class MyProject2 implements Project2 {
         for (int i = 0; i < L; i++) {
             listOfLists.append(Project2.generateNumber(L));
         }
-        p.save(p.addition(listOfLists.iterator()), "result.txt");
+        p.save(p.addition(listOfLists.iterator()), "result.bin");
         System.out.println("Loading: ");
-        Project2.print(p.load("result.txt"));
+        Project2.print(p.load("result.bin"));
     }
 }
