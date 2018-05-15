@@ -19,8 +19,8 @@ public class MyProject2 implements Project2 {
     //add 2 nodeList
     @Override
     public NodeList<Integer> addition(NodeList<Integer> nodeList1, NodeList<Integer> nodeList2) {
-       if (nodeList1==null && nodeList2==null){
-           throw new IllegalArgumentException("node 1 or 2 can not be empty");
+       if (nodeList1.getLength()==0 && nodeList2.getLength()==0){
+           throw new IllegalArgumentException("node 1 and 2 can not be empty");
        }
         NodeList<Integer> nodeListTotal = new NodeList<>();
         reverse(nodeList1.iterator(), nodeList1);
