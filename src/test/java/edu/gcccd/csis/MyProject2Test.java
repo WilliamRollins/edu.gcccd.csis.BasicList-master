@@ -27,7 +27,7 @@ public class MyProject2Test {
         final NodeList<Integer> n1 = new NodeList<>();
         final NodeList<Integer> n2 = new NodeList<>();
         System.out.println(p.addition(n1,n2));
-        assertEquals(p.addition(n1,n2),"" );
+        assertEquals(p.addition(n1,n2),"node 1 or 2 can not be empty" );
     }
 
     @Test

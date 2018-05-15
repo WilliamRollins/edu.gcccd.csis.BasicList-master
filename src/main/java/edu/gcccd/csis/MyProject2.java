@@ -19,6 +19,9 @@ public class MyProject2 implements Project2 {
     //add 2 nodeList
     @Override
     public NodeList<Integer> addition(NodeList<Integer> nodeList1, NodeList<Integer> nodeList2) {
+       if (nodeList1.getLength()==0 || nodeList2.getLength()==0){
+           throw new IllegalArgumentException("node 1 or 2 can not be empty");
+       }
         NodeList<Integer> nodeListTotal = new NodeList<>();
         reverse(nodeList1.iterator(), nodeList1);
         reverse(nodeList2.iterator(), nodeList2);
@@ -108,7 +111,6 @@ public class MyProject2 implements Project2 {
 
         final NodeList<Integer> n1 = Project2.generateNumber(L); // (head 1st) e.g. 3457
         final NodeList<Integer> n2 = Project2.generateNumber(L); // (head 1st) e.g. 682
-
         final Project2 p = new MyProject2();
 
         Project2.print(p.addition(n1, n2)); //  n1+n2, e.g. 4139
