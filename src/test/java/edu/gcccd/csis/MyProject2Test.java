@@ -1,106 +1,181 @@
 package edu.gcccd.csis;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.math.BigInteger;
 
 import static org.junit.Assert.assertEquals;
 
 public class MyProject2Test {
 
-    final NodeList<Integer> nEmpty = new NodeList<>();
-    final NodeList<Integer> n0 = new NodeList<>();
-    final NodeList<Integer> n1 = new NodeList<>();
-    final NodeList<Integer> n2 = new NodeList<>();
-    final NodeList<Integer> n3 = new NodeList<>();
-    final NodeList<Integer> n9 = new NodeList<>();
-    final NodeList<Integer> n99 = new NodeList<>();
-    final NodeList<Integer> result = new NodeList<>();
-    int L = 30;
-    NodeList<NodeList<Integer>> LEmpty = new NodeList<>();
-    NodeList<NodeList<Integer>> L1 = new NodeList<>();
-    NodeList<NodeList<Integer>> L2 = new NodeList<>();
-    NodeList<NodeList<Integer>> L3 = new NodeList<>();
+    private final NodeList<Integer> n1 = new NodeList<>();
+    private final NodeList<Integer> n2 = new NodeList<>();
+    private final NodeList<Integer> n3 = new NodeList<>();
+    private final NodeList<Integer> n4 = new NodeList<>();
+    private final NodeList<Integer> n10 = Project2.generateNumber(10);
+    private final NodeList<Integer> n20 = Project2.generateNumber(20);
+    private final NodeList<Integer> n30 = Project2.generateNumber(30);
+    private final NodeList<Integer> n30x = Project2.generateNumber(30);
+
+    private BigInteger bigInt;
+    private NodeList<Integer> nodeList = new NodeList<>();
+    private NodeList<Integer> nodeList1 = new NodeList<>();
+
+    private BigInteger N20;
+    private BigInteger N30;
+    private BigInteger N30x;
 
 
     @Before
-    public void setUp() throws Exception {
-        final Project2 p = new MyProject2();
-        n0.append(0);
-        n0.append(0);
-        n0.append(0);
-        n1.append(1);
+    public void setUp() {
         n2.append(1);
-        n2.append(2);
-        n3.append(1);
-        n3.append(2);
-        n3.append(3);
-        L1.append(n1);
-        L2.append(n2);
-        L2.append(n2);
-        n9.append(0);
-        n9.append(9);
-        n99.append(9);
-        n99.append(9);
+        n3.append(0);
+        n3.append(0);
+        n4.append(1);
+        n4.append(2);
+        n4.append(3);
 
+        N20 = genBigInteger(n20);
+        N30 = genBigInteger(n30);
+        N30x = genBigInteger(n30x);
+    }
+
+    private static BigInteger genBigInteger(NodeList<Integer> nodeList) {
+        if (nodeList.getLength() == 0) {
+            return BigInteger.valueOf(0);
+        }
+        StringBuilder s = new StringBuilder();
+        for (int node : nodeList) {
+            s.append(String.valueOf(node));
+        }
+        return new BigInteger(String.valueOf(s));
     }
 
     @Test
     public void reverse() {
-        //assertEquals("21", MyProject2.nodeString(MyProject2.reverse(nEmpty.iterator(), nEmpty)));
-        //reverse 1 = 1;
-        assertEquals("1",MyProject2.nodeString(MyProject2.reverse(n1.iterator(),n1)));
-        //reverse 1,2=2,1
-        assertEquals("21",MyProject2.nodeString(MyProject2.reverse(n2.iterator(),n2)));
-        //reverse 123=321
-        assertEquals("321",MyProject2.nodeString(MyProject2.reverse(n3.iterator(),n3)));
 
+        //test 1 int nodeList;
+        bigInt = BigInteger.valueOf(1);
+        nodeList = MyProject2.reverse(n2.iterator(),n2);
+        assertEquals(bigInt,genBigInteger(nodeList));
+
+        //test basic case
+        bigInt = BigInteger.valueOf(321);
+        nodeList = MyProject2.reverse(n4.iterator(),n4);
+        assertEquals(bigInt,genBigInteger(n4));
+
+        //test null
+        nodeList = MyProject2.reverse(n1.iterator(),n1);
+        bigInt = BigInteger.valueOf(0);
+        assertEquals(bigInt,genBigInteger(n1));
     }
 
     @Test
     public void addition() {
         final Project2 p = new MyProject2();
 
-        //test both nodeList are null
-       //assertEquals("node 1 and 2 can not be empty", p.addition(nEmpty, nEmpty));
-        // test one node list is null
-        assertEquals("9", MyProject2.nodeString(p.addition(nEmpty,n9)));
-        //test no leading 0's
-        assertEquals("9",MyProject2.nodeString(p.addition(n0,n9)));
-        //test 9+9=18
-        assertEquals("18",MyProject2.nodeString(p.addition(n9,n9)));
-        //test 9+99=108
-        assertEquals("108",MyProject2.nodeString(p.addition(n9,n99)));
-        //0+0=0
-        assertEquals("0",MyProject2.nodeString(p.addition(n0,n0)));
+        //test same nodeList passed in.
+        // nodeList = p.addition(n10, n10);
+        //bigInt = N30.add(N30);
+        //assertEquals(bigInt, genBigInteger(nodeList));
+
+        //test null node handaling returns 0.
+        bigInt = BigInteger.valueOf(0);
+        nodeList = new MyProject2().addition(n1,n3);
+        assertEquals(bigInt,genBigInteger(nodeList));
+
+        //test removal of leading Zeros
+        nodeList = p.addition(n1,n4);
+        bigInt = BigInteger.valueOf(123);
+        assertEquals(bigInt,genBigInteger(nodeList));
+
+        // test removal of leading zeros returns 1.
+        nodeList = p.addition(n1,n3);
+        bigInt = genBigInteger(n1);
+        assertEquals(bigInt,genBigInteger(nodeList));
+
+        //test addition of two large numbers.
+        nodeList = new MyProject2().addition(n30,n30x);
+        bigInt = N30.add(N30x);
+        assertEquals(bigInt,genBigInteger(nodeList));
     }
 
     @Test
     public void addition1() {
         final Project2 p = new MyProject2();
-        // test if list is null;
-        //test if list only has one nodeList
-        //test if 9+9=18
-        //test if 9+9+9=27
-        //test if 0+9+99=108;
+        final NodeList<NodeList<Integer>> listOfLists = new NodeList<>();
 
+        // test if list is null;
+        nodeList = p.addition(listOfLists.iterator());
+        bigInt = BigInteger.valueOf(0);
+        assertEquals(bigInt,genBigInteger(nodeList));
+
+        //test if list only has one nodeList
+        listOfLists.append(n10);
+        bigInt = genBigInteger(n10);
+        nodeList = p.addition(listOfLists.iterator());
+        assertEquals(bigInt,genBigInteger(nodeList));
+        Project2.print(nodeList);
+
+        //test adding 3 larg numbers in a list.
+        listOfLists.append(n10);
+        listOfLists.append(n20);
+        listOfLists.append(n30);
+        listOfLists.append(n30x);
+        NodeList<Integer> nodeA = p.addition(listOfLists.iterator());
+        bigInt = N20.add(N30);
+        bigInt = bigInt.add(N30x);
+        assertEquals(bigInt,genBigInteger(nodeA));
     }
 
     @Test
     public void save() {
-        // save null NodeList
+        final Project2 p = new MyProject2();
 
-        //save larg NodeList
+        //saving null nodeList
+        bigInt = genBigInteger(n1);
+        p.save(n1,"result.bin");
+        nodeList = p.load("result.bin");
+        assertEquals(bigInt,genBigInteger(nodeList));
+
+        //save larg and load NodeList
+        bigInt = genBigInteger(n10);
+        p.save(n10,"result.bin");
+        nodeList = p.load("result.bin");
+        assertEquals(bigInt,genBigInteger(nodeList));
+
+        //test saving over file
+        bigInt = genBigInteger(n30);
+        p.save(n30,"result.bin");
+        nodeList1 = p.load("result.bin");
+        assertEquals(bigInt,genBigInteger(nodeList1));
+        Assert.assertTrue(genBigInteger(nodeList) != genBigInteger(nodeList1));
     }
 
     @Test
     public void load() {
         final Project2 p = new MyProject2();
-        //load file not there
-        //assertEquals("The system cannot find the file specified",String.valueOf(p.load("notThere.bin")));
-        //load file open;
-        p.save(p.addition(L3.iterator()),"result.txt");
-        Project2.print(p.load("result.txt"));
 
-        //load large NodeList;
+        //saving null nodeList
+        bigInt = genBigInteger(n1);
+        p.save(n1,"result.bin");
+        nodeList = p.load("result.bin");
+        assertEquals(bigInt,genBigInteger(nodeList));
+
+        //save larg and load NodeList
+        bigInt = genBigInteger(n10);
+        p.save(n10,"result.bin");
+        nodeList = p.load("result.bin");
+        assertEquals(bigInt,genBigInteger(nodeList));
+
+        //test saving over file
+        bigInt = genBigInteger(n30);
+        p.save(n30,"result.bin");
+        nodeList1 = p.load("result.bin");
+        assertEquals(bigInt,genBigInteger(nodeList1));
+        Assert.assertTrue(genBigInteger(nodeList) != genBigInteger(nodeList1));
+
     }
 }

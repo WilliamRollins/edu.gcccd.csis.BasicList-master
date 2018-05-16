@@ -3,9 +3,15 @@ package edu.gcccd.csis;
 import java.io.*;
 import java.util.Iterator;
 
-//reverse a nodeList
 public class MyProject2 implements Project2 {
-    public static NodeList<Integer> reverse(Iterator<Integer> iterator,NodeList<Integer> nodeList) {
+
+    public static NodeList<Integer> reverse(Iterator<Integer> iterator,NodeList<Integer> nodeList) {                    //reverse a NodeList
+        if (nodeList.getLength() == 0 && nodeList.getLength() == 0) {
+            NodeList<Integer> nodeList3 = new NodeList<>();
+            nodeList3.append(0);
+            return nodeList;
+        }
+
         if (iterator.hasNext()) {
             int k = iterator.next();
             nodeList.remove(k);
@@ -14,40 +20,43 @@ public class MyProject2 implements Project2 {
         }
         return nodeList;
     }
-
     //add 2 nodeList
     @Override
     public NodeList<Integer> addition(NodeList<Integer> nodeList1,NodeList<Integer> nodeList2) {
-//check to see if null
+
         if (nodeList1.getLength() == 0 && nodeList2.getLength() == 0) {
-            throw new IllegalArgumentException("node 1 and 2 can not be empty");
+            NodeList<Integer> nodeList3 = new NodeList<>();
+            nodeList3.append(0);
+            return nodeList1;
         }
-//set for loop count.
-        int k;
-        if (nodeList1.getLength() > nodeList2.getLength()) {
-            k = nodeList1.getLength();
-        } else {
-            k = nodeList2.getLength();
+
+        if (nodeList1 == nodeList2) {
+            throw new IllegalArgumentException("can not pass in the same nodeList");
         }
+//set k for loop count.
+        int k = (nodeList1.getLength() > nodeList2.getLength()) ? nodeList1.getLength() : nodeList2.getLength();
 //creats NodeList to hold totals.
         NodeList<Integer> nodeList3 = new NodeList<>();
-//reverses nodeList to add from right to left.
-        reverse(nodeList1.iterator(),nodeList1);
-        reverse(nodeList2.iterator(),nodeList2);
 //c is used to hold a carryover digit to the next node.
         int c = 0;
-//iterates through the length of the longest NodeList
-for (int i = 0; i < k; i++) {
-            int n1 = 0;
-            int n2 = 0;
-            int n3 = 0;
-//gets the int in nodelist1 then removes it.
+        reverse(nodeList1.iterator(),nodeList1);
+//reverses nodeList to add from right to left.
+        reverse(nodeList2.iterator(),nodeList2);
+//reverses nodeList to add from right to left.
+//for loop iterates through the for the length of the longest NodeList set by k.
+        for (int i = 0; i < k; i++) {
+            int n1 = 0; //nodeList1 int value of current head
+            int n2 = 0; //nodeList2 int value of current head
+            int n3;
+//gets the int value of the current node head of nodelist1 then removes it.
+//gets the int value of the current node head of nodelist1 then removes it.
             for (int node1 : nodeList1) {
                 nodeList1.remove(node1);
                 n1 = node1;
                 break;
             }
-//gets the int in nodelist2 then removes it.
+//gets the int value of the current node head of nodelist1 then removes it.
+//*Node: break out for loop on purpose.
             for (int node2 : nodeList2) {
                 nodeList2.remove(node2);
                 n2 = node2;
@@ -67,6 +76,7 @@ for (int i = 0; i < k; i++) {
         }
 //reverse the nodeList3 so it may be read left to right.
         reverse(nodeList3.iterator(),nodeList3);
+        Project2.print(nodeList3);
         return nodeList3;
     }
 
@@ -74,6 +84,7 @@ for (int i = 0; i < k; i++) {
     public NodeList<Integer> addition(Iterator<NodeList<Integer>> iterator) {
         NodeList<Integer> nodeListTotal = new NodeList<>();
         nodeListTotal.append(0);
+//adds current nodeList total with the next NodeList in the iterator  variable.
         while (iterator.hasNext()) {
             nodeListTotal = addition(iterator.next(),nodeListTotal);
         }
@@ -83,7 +94,9 @@ for (int i = 0; i < k; i++) {
     @Override
     public void save(NodeList<Integer> nodeList,String fileName) {
         try {
+//creates new BufferWriter with a destination of the filename variable.
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+//loops through nodeList var and writes x to file
             for (int x : nodeList) {
                 writer.write(x);
                 nodeList.remove(x);
@@ -98,8 +111,11 @@ for (int i = 0; i < k; i++) {
     public NodeList<Integer> load(String fileName) {
         NodeList<Integer> nodeList = new NodeList<>();
         try {
+//creates new buffer reader from fileName var.
             BufferedReader in = new BufferedReader(new FileReader(fileName));
+//checks to see if file has anything left. if not return -1.
             int nextVal = in.read();
+//reads next value of file and appends to nodeList.
             while (nextVal != -1) {
                 nodeList.append(nextVal);
                 nextVal = in.read();
@@ -111,30 +127,20 @@ for (int i = 0; i < k; i++) {
         return nodeList;
     }
 
-    public static String nodeString(NodeList<Integer> nodeList) {
-        String s = "";
-        for (int node : nodeList) {
-            s = s + String.valueOf(node);
-        }
-        return s;
-    }
 
     public static void main(final String[] args) {
+
         final int L = 3;
-
-        final NodeList<Integer> n1 = Project2.generateNumber(L); // (head 1st) e.g. 3457
-        final NodeList<Integer> n2 = Project2.generateNumber(L); // (head 1st) e.g. 682
-
+        final NodeList<Integer> n1 = Project2.generateNumber(L);
+        final NodeList<Integer> n2 = Project2.generateNumber(L);
         final Project2 p = new MyProject2();
-
         Project2.print(p.addition(n1,n2)); //  n1+n2, e.g. 4139
-
         final NodeList<NodeList<Integer>> listOfLists = new NodeList<>();
         for (int i = 0; i < L; i++) {
             listOfLists.append(Project2.generateNumber(L));
         }
-        p.save(p.addition(listOfLists.iterator()),"results.bin");
+        p.save(p.addition(listOfLists.iterator()),"result.bin");
         System.out.println("Loading: ");
-        Project2.print(p.load("results.bin"));
+        Project2.print(p.load("result.bin"));
     }
 }
