@@ -3,9 +3,7 @@ package edu.gcccd.csis;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.math.BigInteger;
-
 import static org.junit.Assert.assertEquals;
 
 public class MyProject2Test {
@@ -158,13 +156,13 @@ public class MyProject2Test {
     public void load() {
         final Project2 p = new MyProject2();
 
-        //saving null nodeList
+        //load null nodeList
         bigInt = genBigInteger(n1);
         p.save(n1,"result.bin");
         nodeList = p.load("result.bin");
         assertEquals(bigInt,genBigInteger(nodeList));
 
-        //save larg and load NodeList
+        //load large NodeList
         bigInt = genBigInteger(n10);
         p.save(n10,"result.bin");
         nodeList = p.load("result.bin");
