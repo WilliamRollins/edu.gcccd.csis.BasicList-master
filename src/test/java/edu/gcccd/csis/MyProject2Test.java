@@ -89,6 +89,8 @@ public class MyProject2Test {
         A.append(0);
         A.append(0);
         A.append(7);
+
+        //test remmoval of leading zeros.
         nodeList=nodeList = new MyProject2().addition(n2,A);
         bigInt=BigInteger.valueOf(8);
         assertEquals(bigInt,genBigInteger(nodeList));
@@ -96,11 +98,6 @@ public class MyProject2Test {
         //test null node handaling returns 0.
         bigInt = BigInteger.valueOf(0);
         nodeList = new MyProject2().addition(n1,n3);
-        assertEquals(bigInt,genBigInteger(nodeList));
-
-        //test removal of leading Zeros
-        nodeList = p.addition(n1,n4);
-        bigInt = BigInteger.valueOf(123);
         assertEquals(bigInt,genBigInteger(nodeList));
 
         // test removal of leading zeros returns 1.
