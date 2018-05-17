@@ -83,6 +83,16 @@ public class MyProject2Test {
         bigInt = N10.add(N10);
         assertEquals(bigInt,genBigInteger(nodeList));
 
+
+        //remove leading zeros
+        NodeList<Integer>A=new NodeList<>();
+        A.append(0);
+        A.append(0);
+        A.append(7);
+        nodeList=nodeList = new MyProject2().addition(n2,A);
+        bigInt=BigInteger.valueOf(8);
+        assertEquals(bigInt,genBigInteger(nodeList));
+
         //test null node handaling returns 0.
         bigInt = BigInteger.valueOf(0);
         nodeList = new MyProject2().addition(n1,n3);
