@@ -4,11 +4,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.math.BigInteger;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class MyProject2Test {
@@ -26,6 +24,7 @@ public class MyProject2Test {
     private NodeList<Integer> nodeList = new NodeList<>();
     private NodeList<Integer> nodeList1 = new NodeList<>();
 
+    private BigInteger N10;
     private BigInteger N20;
     private BigInteger N30;
     private BigInteger N30x;
@@ -39,7 +38,7 @@ public class MyProject2Test {
         n4.append(1);
         n4.append(2);
         n4.append(3);
-
+        N10 = genBigInteger(n10);
         N20 = genBigInteger(n20);
         N30 = genBigInteger(n30);
         N30x = genBigInteger(n30x);
@@ -80,9 +79,9 @@ public class MyProject2Test {
         final Project2 p = new MyProject2();
 
         //test same nodeList passed in.
-        // nodeList = p.addition(n10, n10);
-        //bigInt = N30.add(N30);
-        //assertEquals(bigInt, genBigInteger(nodeList));
+        nodeList = p.addition(n10,n10);
+        bigInt = N10.add(N10);
+        assertEquals(bigInt,genBigInteger(nodeList));
 
         //test null node handaling returns 0.
         bigInt = BigInteger.valueOf(0);
@@ -164,8 +163,8 @@ public class MyProject2Test {
         //test wrong file name;
         try {
             nodeList = p.load("wrongFile.bin");
-        }catch (Exception e) {
-           fail("java.lang.AssertionError: java.io.FileNotFoundException: wrongFile.bin (The system cannot find the file specified");
+        } catch (Exception e) {
+            fail("java.lang.AssertionError: java.io.FileNotFoundException: wrongFile.bin (The system cannot find the file specified");
         }
 
         //load null nodeList
