@@ -92,8 +92,21 @@ public class MyProject2 implements Project2 {
 //append n3 to the nodeList.
             nodeList3.append(n3);
         }
+
+
+
 //reverse the nodeList3 so it may be read left to right.
         reverse(nodeList3.iterator(),nodeList3);
+
+//removes leading zeros.
+        for(int node:nodeList3){
+            if(node==0){
+                nodeList3.remove(node);
+                break;
+            }
+            break;
+        }
+        Project2.print(nodeList3);
         return nodeList3;
     }
 
