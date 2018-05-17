@@ -3,8 +3,13 @@ package edu.gcccd.csis;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
 import java.math.BigInteger;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class MyProject2Test {
 
@@ -153,14 +158,22 @@ public class MyProject2Test {
     }
 
     @Test
-    public void load() {
+    public void load() throws Exception {
         final Project2 p = new MyProject2();
+
+        //test wrong file name;
+        try {
+            nodeList = p.load("wrongFile.bin");
+        }catch (Exception e) {
+           fail("java.lang.AssertionError: java.io.FileNotFoundException: wrongFile.bin (The system cannot find the file specified");
+        }
 
         //load null nodeList
         bigInt = genBigInteger(n1);
         p.save(n1,"result.bin");
         nodeList = p.load("result.bin");
         assertEquals(bigInt,genBigInteger(nodeList));
+
 
         //load large NodeList
         bigInt = genBigInteger(n10);
